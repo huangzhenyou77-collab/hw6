@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="zh-Hant"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>來臺旅客按國籍統計｜2025.10—2026.09</title>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<style>
+:root{--ink:#233746;--muted:#71818d;--line:#e5ebef;--teal:#477b91}
+*{box-sizing:border-box}body{margin:0;padding:30px 16px 48px;background:radial-gradient(circle at 8% 0%,#dcebed 0,transparent 30rem),radial-gradient(circle at 100% 10%,#f0e8d9 0,transparent 24rem),#f2f5f7;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC","Microsoft JhengHei",sans-serif;line-height:1.65}
+.page{max-width:1120px;margin:auto}.hero{position:relative;overflow:hidden;padding:36px clamp(22px,5vw,54px);border-radius:24px;color:white;background:linear-gradient(118deg,#203f50,#326777 60%,#78a4a2);box-shadow:0 12px 34px #22394712}
+.hero:after{content:"";position:absolute;width:330px;height:330px;border:1px solid #ffffff30;border-radius:50%;right:-80px;top:-190px}.eyebrow{margin:0 0 9px;color:#d7e7e7;font-size:12px;font-weight:700;letter-spacing:.18em}h1{margin:0;font-size:clamp(26px,4vw,39px);line-height:1.3}.hero p{color:#e0eded}.period{display:inline-block;margin-top:14px;padding:6px 13px;border:1px solid #ffffff66;border-radius:30px;font-size:12px}
+.kicker{margin:28px 2px 12px;color:var(--muted);font-size:11px;font-weight:800;letter-spacing:.16em}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.stat,.panel{background:white;border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 25px #22394709}.stat{padding:19px 21px}.stat-label{color:var(--muted);font-size:13px}.stat-value{margin-top:4px;font-size:clamp(22px,3vw,29px);font-weight:750}.stat-note{color:#89969e;font-size:11px}
+.panel{margin-top:18px;padding:25px clamp(17px,3vw,30px)}.head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;flex-wrap:wrap}h2{margin:0;font-size:20px}.desc{margin:5px 0 0;color:var(--muted);font-size:13px}.controls{display:flex;gap:10px;flex-wrap:wrap}.control{display:grid;gap:5px}.control label{color:var(--muted);font-size:11px;font-weight:700}select{appearance:none;min-width:165px;padding:10px 36px 10px 12px;border:1px solid #dce5e9;border-radius:10px;background:#f8fafb;color:var(--ink);font:inherit;font-size:13px;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7c87' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center}select:focus{outline:2px solid #477b9133;border-color:var(--teal)}
+#container{width:100%;min-height:465px;margin-top:10px}.hint{text-align:center;color:#89969e;font-size:11px;margin:0}
+.grid{display:grid;grid-template-columns:1.05fr .95fr;gap:18px;margin-top:18px}.grid .panel{margin-top:0}.table-wrap{overflow-x:auto;margin-top:12px}table{width:100%;border-collapse:collapse;font-size:13px}th{padding:10px 8px;text-align:left;color:var(--muted);font-size:11px;border-bottom:1px solid var(--line)}td{padding:11px 8px;border-bottom:1px solid #eff2f4}tbody tr:last-child td{border:0}.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:8px}.insight{background:linear-gradient(145deg,#f3f8f8,#fbfaf7)}.insight p{margin:12px 0 0;color:#52636e;font-size:14px}.insight strong{color:#254f5d}.source{text-align:center;color:#89969e;font-size:11px;margin:20px 4px 0}
+@media(max-width:760px){body{padding:12px 8px 28px}.hero{border-radius:18px;padding:28px 22px}.stats{grid-template-columns:1fr;gap:9px}.stat{padding:14px 18px}.stat-value{font-size:24px}.grid{grid-template-columns:1fr}.head{display:block}.controls{margin-top:15px}.control,.control select{width:100%}#container{min-height:420px}}
+
+/* ASEAN ten-country interactive section */
+.asean-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0 2px}
+.asean-kpi{padding:15px 17px;border:1px solid #e5ebef;border-radius:14px;background:#f8fafb}
+.asean-kpi .small{color:#71818d;font-size:12px}
+.asean-kpi .big{margin-top:3px;color:#233746;font-size:22px;font-weight:750;font-variant-numeric:tabular-nums}
+.asean-controls{display:flex;gap:10px;align-items:end;flex-wrap:wrap;margin-top:14px}
+.asean-controls .control{display:grid;gap:5px}
+.asean-controls label{color:#71818d;font-size:11px;font-weight:700}
+.asean-controls select{min-width:190px}
+.asean-chart{width:100%;min-height:460px;margin-top:8px}
+.asean-note{margin:12px 0 0;padding:11px 13px;border-left:3px solid #d0b98d;border-radius:0 8px 8px 0;background:#fbf8f1;color:#697780;font-size:12px}
+.asean-table-wrap{overflow-x:auto;margin-top:12px}
+.asean-table{width:100%;border-collapse:collapse;font-size:13px}
+.asean-table th{padding:10px 8px;text-align:left;color:#71818d;font-size:11px;border-bottom:1px solid #e5ebef}
+.asean-table td{padding:10px 8px;border-bottom:1px solid #eff2f4}
+.asean-table tbody tr:last-child td{border:0}
+.asean-table .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.asean-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:8px}
+@media(max-width:760px){.asean-kpis{grid-template-columns:1fr}.asean-controls,.asean-controls .control,.asean-controls select{width:100%}.asean-chart{min-height:420px}}
+
+</style></head><body><main class="page">
+<header class="hero"><p class="eyebrow">TOURISM DATA INSIGHT · TAIWAN</p><h1>來臺旅客按國籍統計</h1><p>從旅客來源結構，觀察臺灣國際觀光客源的分布情形。</p><span class="period">統計期間　2025.10 — 2026.09</span></header>
+<p class="kicker">OVERVIEW ／ 數據總覽</p>
+<section class="stats">
+<article class="stat"><div class="stat-label">來臺旅客總人次</div><div class="stat-value">6,900,434</div><div class="stat-note">2025年10月至2026年9月累計</div></article>
+<article class="stat"><div class="stat-label">最大客源地區</div><div class="stat-value">亞洲地區</div><div class="stat-note">5,280,306 人次</div></article>
+<article class="stat"><div class="stat-label">亞洲地區占比</div><div class="stat-value">76.5%</div><div class="stat-note">占整體來臺旅客逾八成</div></article>
+</section>
+<section class="panel"><div class="head"><div><h2>旅客來源分布</h2><p class="desc">使用下拉選單切換圖表樣式及資料範圍。</p></div>
+<div class="controls"><div class="control"><label for="chartType">圖表樣式</label><select id="chartType"><option value="pie">圓餅圖</option><option value="donut">環圈圖</option><option value="column">直條圖</option><option value="bar">橫條圖</option></select></div>
+<div class="control"><label for="regionFilter">資料範圍</label><select id="regionFilter"><option value="all">全部地區</option><option value="major">主要客源（亞洲、美洲、歐洲）</option><option value="other">其他地區（大洋洲、非洲及其他）</option></select></div></div></div>
+<div id="container"></div><p class="hint">提示：將游標移至圖表區塊，可查看旅客人次與占比。</p></section>
+<div class="grid"><section class="panel"><h2>各地區統計明細</h2><p class="desc">依旅客人次由高至低排列</p><div class="table-wrap"><table><thead><tr><th>國籍／地區</th><th class="num">旅客人次</th><th class="num">占比</th></tr></thead><tbody id="rows"></tbody></table></div></section>
+<section class="panel insight"><h2>統計分析</h2>
+<p>依據2025年10月至2026年9月的統計資料，來臺旅客以<strong>亞洲地區</strong>為最大來源，共計5,280,306人次，占整體約<strong>76.5%</strong>，顯示亞洲仍是臺灣最主要的國際觀光客源市場。</p>
+<p>其次為<strong>美洲地區</strong>，共959,459人次，占13.9%；<strong>歐洲地區</strong>共489,079人次，占7.1%。大洋洲地區則有156,637人次，占2.3%。</p>
+<p>非洲地區及其他未列明地區的旅客人數相對較少，分別為14,165人次（約0.2%）及788人次（約0.01%）。整體而言，來臺旅客來源呈現以亞洲市場為核心，美洲及歐洲市場為次要來源的分布情形。</p></section></div>
+
+<section class="panel" id="asean10-section">
+  <div class="head">
+    <div>
+      <h2>東協十國來臺旅客統計</h2>
+      <p class="desc">依據國籍別資料，呈現2025年10月至2026年9月東協十國來臺旅客人次與變化。</p>
+    </div>
+  </div>
+  <div class="asean-kpis">
+    <article class="asean-kpi"><div class="small">東協十國來臺旅客總人次</div><div class="big">2,698,569</div><div class="small">2025年10月至2026年9月累計</div></article>
+    <article class="asean-kpi"><div class="small">旅客人次最多國家</div><div class="big">菲律賓</div><div class="small">741,033 人次</div></article>
+    <article class="asean-kpi"><div class="small">第一名國家占東協十國比例</div><div class="big">27.5%</div><div class="small">菲律賓 旅客占比</div></article>
+  </div>
+  <div class="asean-controls">
+    <div class="control">
+      <label for="aseanView">統計圖表</label>
+      <select id="aseanView">
+        <option value="pie">全年國別占比－圓餅圖</option>
+        <option value="donut">全年國別占比－環圈圖</option>
+        <option value="bar">全年人次排名－橫條圖</option>
+        <option value="column">指定月份國別比較－直條圖</option>
+        <option value="totalTrend">每月東協十國總人次－折線圖</option>
+        <option value="countryTrend">各國每月人次變化－折線圖</option>
+      </select>
+    </div>
+    <div class="control" id="aseanMonthControl" style="display:none">
+      <label for="aseanMonth">選擇月份</label>
+      <select id="aseanMonth"></select>
+    </div>
+  </div>
+  <div id="aseanChart" class="asean-chart"></div>
+  <p class="hint">提示：可切換圖表類型及月份；將游標移至圖表可查看詳細人次。</p>
+  <p class="asean-note">資料口徑說明：本圖依「東協十國」指定範圍，統計越南、泰國、馬來西亞、新加坡、菲律賓、汶萊、印尼、柬埔寨、寮國及緬甸。原始 Excel 另列「帝汶」資料（期間合計28人次），因本圖依十國範圍呈現，未納入東協十國合計。</p>
+</section>
+<div class="grid">
+  <section class="panel">
+    <h2>東協十國國別統計明細</h2>
+    <p class="desc">依全年旅客人次由高至低排列</p>
+    <div class="asean-table-wrap">
+      <table class="asean-table">
+        <thead><tr><th>國家</th><th class="num">旅客人次</th><th class="num">占比</th></tr></thead>
+        <tbody id="aseanRows"></tbody>
+      </table>
+    </div>
+  </section>
+  <section class="panel insight">
+    <h2>東協十國統計分析</h2>
+    <p>2025年10月至2026年9月，東協十國來臺旅客合計<strong>2,698,569人次</strong>。其中以<strong>菲律賓</strong>最多，達741,033人次，占東協十國總人次約<strong>27.5%</strong>。</p>
+    <p>其次為<strong>越南</strong>，共465,626人次（約17.3%）；第三為<strong>泰國</strong>，共408,149人次（約15.1%）。前三名合計占東協十國旅客總人次約<strong>59.8%</strong>。</p>
+    <p>整體而言，東協十國來臺旅客來源以菲律賓、越南、泰國、馬來西亞及新加坡為主，前五名合計占約<strong>88.9%</strong>；其餘國家旅客人次相對較少。透過每月趨勢圖，可進一步觀察各國旅客來臺人次在統計期間內的變化。</p>
+  </section>
+</div>
+
+<p class="source">資料來源：使用者提供之「來臺旅客按國籍統計」Excel 檔案。原始工作表分類欄位為亞洲、非洲、美洲、大洋洲及歐洲等地區，並非逐一國家；占比依各地區人次占總人次計算。統計期間為民國114年10月至115年9月。</p>
+</main>
+<script>
+const allData=[
+{name:'亞洲地區',y:5280306,color:'#477B91'},
+{name:'美洲地區',y:959459,color:'#79A7B5'},
+{name:'歐洲地區',y:489079,color:'#A6C3C9'},
+{name:'大洋洲地區',y:156637,color:'#D0B98D'},
+{name:'非洲地區',y:14165,color:'#D99A82'},
+{name:'其他未列明',y:788,color:'#B7B9C8'}];
+const total=allData.reduce((s,d)=>s+d.y,0), fmt=n=>Highcharts.numberFormat(n,0), pct=n=>Highcharts.numberFormat(n/total*100,2)+'%';
+document.getElementById('rows').innerHTML=allData.map(d=>`<tr><td><i class="dot" style="background:${d.color}"></i>${d.name}</td><td class="num">${fmt(d.y)}</td><td class="num">${pct(d.y)}</td></tr>`).join('');
+let chart;
+function draw(){
+const mode=document.getElementById('chartType').value, filter=document.getElementById('regionFilter').value;
+const pie=mode==='pie'||mode==='donut', type=pie?'pie':mode;
+const data=filter==='major'?allData.slice(0,3):filter==='other'?allData.slice(3):allData;
+if(chart)chart.destroy();
+chart=Highcharts.chart('container',{
+chart:{type,backgroundColor:'transparent',height:445,spacing:[18,8,10,8],style:{fontFamily:'-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC","Microsoft JhengHei",sans-serif'}},
+title:{text:null},subtitle:{text:filter==='all'?'各地區旅客人次占總人次比例':filter==='major'?'主要客源地區比較':'其他客源地區比較',style:{color:'#84929b',fontSize:'12px'}},credits:{enabled:false},exporting:{enabled:true},
+xAxis:pie?undefined:{type:'category',lineColor:'#e5ebef',labels:{style:{color:'#596b77'}}},
+yAxis:pie?undefined:{min:0,title:{text:'旅客人次'},gridLineColor:'#edf1f3',labels:{formatter:function(){return fmt(this.value)}}},
+tooltip:{useHTML:true,formatter:function(){return '<b>'+this.point.name+'</b><br>'+fmt(this.y)+' 人次<br>占整體總人次：'+pct(this.y)}},
+accessibility:{point:{valueSuffix:' 人次'}},
+legend:{enabled:pie,align:'center',verticalAlign:'bottom',itemStyle:{color:'#526572',fontSize:'12px',fontWeight:'500'},symbolRadius:4},
+plotOptions:{
+pie:{allowPointSelect:true,cursor:'pointer',borderColor:'#fff',borderWidth:3,innerSize:mode==='donut'?'58%':'0%',size:'83%',showInLegend:true,dataLabels:{enabled:true,distance:18,connectorColor:'#b7c2c9',style:{color:'#344956',fontSize:'12px',fontWeight:'500',textOutline:'none'},formatter:function(){return this.point.name+'<br><b>'+pct(this.y)+'</b>'}}},
+column:{borderRadius:5,pointPadding:.12,groupPadding:.14,dataLabels:{enabled:true,formatter:function(){return fmt(this.y)},style:{color:'#405562',textOutline:'none'}}},
+bar:{borderRadius:5,pointPadding:.12,groupPadding:.14,dataLabels:{enabled:true,formatter:function(){return fmt(this.y)},style:{color:'#405562',textOutline:'none'}}}},
+series:[{name:'來臺旅客人次',colorByPoint:true,data:data.map(d=>({name:d.name,y:d.y,color:d.color}))}]
+});
+}
+document.getElementById('chartType').addEventListener('change',draw);
+document.getElementById('regionFilter').addEventListener('change',draw);
+draw();
+</script>
+<script>
+const aseanData = {"countries":[{"name":"菲律賓","y":741033,"color":"#477B91"},{"name":"越南","y":465626,"color":"#79A7B5"},{"name":"泰國","y":408149,"color":"#A6C3C9"},{"name":"馬來西亞","y":395233,"color":"#D0B98D"},{"name":"新加坡","y":388078,"color":"#D99A82"},{"name":"印尼","y":264993,"color":"#8DAA91"},{"name":"緬甸","y":20855,"color":"#B7A4C7"},{"name":"柬埔寨","y":11250,"color":"#C7A18A"},{"name":"汶萊","y":2385,"color":"#A8B5C2"},{"name":"寮國","y":967,"color":"#C6C9A8"}],"months":["2025/10","2025/11","2025/12","2026/01","2026/02","2026/03","2026/04","2026/05","2026/06","2026/07","2026/08","2026/09"],"monthlyByCountry":{"菲律賓":[54040,57469,72038,70388,63190,81044,74225,64364,56737,51017,47420,49101],"越南":[36493,30321,32625,31276,41074,57612,36791,35218,40182,41457,43617,38960],"泰國":[39290,35371,47858,32989,26616,45523,42640,34874,26010,28460,22656,25862],"馬來西亞":[36583,40223,49463,30989,29022,46518,33637,35372,24357,21470,23078,24521],"新加坡":[33728,52015,66271,29025,18017,41605,33247,30881,27312,17962,16446,21569],"印尼":[18742,18675,23613,19307,18038,28885,23277,20686,24194,21168,23339,25069],"緬甸":[1536,1399,1703,1410,1495,1711,1807,1472,1504,2075,2376,2367],"柬埔寨":[679,1214,1038,756,608,1044,1328,1055,1112,1216,663,537],"汶萊":[178,341,473,137,76,287,150,161,233,107,123,119],"寮國":[113,121,107,60,82,86,114,59,44,55,51,75]},"monthlyTotals":[221382,237149,295189,216337,198218,304315,247216,224142,201685,184987,179769,188180],"total":2698569};
+const aseanFmt = n => Highcharts.numberFormat(n, 0);
+const aseanPct = n => Highcharts.numberFormat(n / aseanData.total * 100, 2) + '%';
+const aseanPalette = aseanData.countries;
+const aseanRows = document.getElementById('aseanRows');
+aseanRows.innerHTML = aseanData.countries.map(item =>
+  `<tr><td><i class="asean-dot" style="background:${item.color}"></i>${item.name}</td><td class="num">${aseanFmt(item.y)}</td><td class="num">${aseanPct(item.y)}</td></tr>`
+).join('');
+
+const monthSelect = document.getElementById('aseanMonth');
+aseanData.months.forEach((month, index) => {
+  const option = document.createElement('option');
+  option.value = String(index);
+  option.textContent = month.replace('/', '年') + '月';
+  if (index === aseanData.months.length - 1) option.selected = true;
+  monthSelect.appendChild(option);
+});
+
+let aseanChart;
+function renderAseanChart() {
+  const view = document.getElementById('aseanView').value;
+  const monthControl = document.getElementById('aseanMonthControl');
+  monthControl.style.display = view === 'column' ? 'grid' : 'none';
+  const baseOptions = {
+    chart: { backgroundColor: 'transparent', height: 455, spacing: [18, 8, 10, 8],
+      style: { fontFamily: '-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC","Microsoft JhengHei",sans-serif' } },
+    title: { text: null },
+    credits: { enabled: false },
+    exporting: { enabled: true },
+    tooltip: { shared: view === 'totalTrend' || view === 'countryTrend', valueSuffix: ' 人次',
+      valueDecimals: 0, thousandsSep: ',' },
+    accessibility: { point: { valueSuffix: ' 人次' } },
+    legend: { itemStyle: { color: '#526572', fontSize: '12px', fontWeight: '500' } },
+    xAxis: { lineColor: '#e5ebef', tickColor: '#e5ebef', labels: { style: { color: '#596b77', fontSize: '11px' } } },
+    yAxis: { min: 0, title: { text: '旅客人次', style: { color: '#71818d', fontSize: '11px' } },
+      gridLineColor: '#edf1f3', labels: { style: { color: '#87949c' }, formatter: function() { return aseanFmt(this.value); } } }
+  };
+  let opts = {};
+  if (view === 'pie' || view === 'donut') {
+    opts = {
+      chart: { type: 'pie' },
+      legend: { enabled: true, align: 'center', verticalAlign: 'bottom', itemDistance: 14,
+        itemStyle: { color: '#526572', fontSize: '12px' } },
+      tooltip: { pointFormatter: function() { return '<br><b>' + aseanFmt(this.y) + ' 人次</b><br>占東協十國：' + aseanPct(this.y); } },
+      plotOptions: { pie: { allowPointSelect: true, cursor: 'pointer', borderColor: '#fff', borderWidth: 3,
+        innerSize: view === 'donut' ? '58%' : '0%', size: '82%', showInLegend: true,
+        dataLabels: { enabled: true, distance: 18, connectorColor: '#b7c2c9',
+          style: { color: '#344956', fontSize: '11px', textOutline: 'none' },
+          formatter: function() { return this.point.name + '<br><b>' + aseanPct(this.y) + '</b>'; } } } },
+      series: [{ name: '來臺旅客人次', colorByPoint: true, data: aseanData.countries }]
+    };
+  } else if (view === 'bar') {
+    opts = {
+      chart: { type: 'bar' },
+      xAxis: { categories: aseanData.countries.map(d => d.name), lineColor: '#e5ebef',
+        labels: { style: { color: '#596b77' } } },
+      plotOptions: { bar: { borderRadius: 5, dataLabels: { enabled: true,
+        formatter: function() { return aseanFmt(this.y); },
+        style: { color: '#405562', textOutline: 'none', fontSize: '11px' } } } },
+      series: [{ name: '來臺旅客人次', colorByPoint: true,
+        data: aseanData.countries.map(d => ({ y: d.y, color: d.color })) }]
+    };
+  } else if (view === 'column') {
+    const idx = Number(monthSelect.value);
+    opts = {
+      chart: { type: 'column' },
+      title: { text: aseanData.months[idx].replace('/', '年') + '月東協十國來臺旅客比較',
+        style: { color: '#526572', fontSize: '13px', fontWeight: '500' } },
+      xAxis: { categories: aseanData.countries.map(d => d.name), labels: { style: { color: '#596b77' } } },
+      plotOptions: { column: { borderRadius: 5, pointPadding: .12, groupPadding: .12,
+        dataLabels: { enabled: true, formatter: function() { return aseanFmt(this.y); },
+          style: { color: '#405562', textOutline: 'none', fontSize: '10px' } } } },
+      series: [{ name: '來臺旅客人次', colorByPoint: true,
+        data: aseanData.countries.map(d => ({ y: d.y, color: d.color,
+          name: d.name, y: aseanData.monthlyByCountry[d.name][idx] })) }]
+    };
+  } else if (view === 'totalTrend') {
+    opts = {
+      chart: { type: 'line' },
+      title: { text: '東協十國每月來臺旅客總人次', style: { color: '#526572', fontSize: '13px', fontWeight: '500' } },
+      xAxis: { categories: aseanData.months, labels: { style: { color: '#596b77', fontSize: '10px' } } },
+      plotOptions: { line: { marker: { enabled: true, radius: 4 }, lineWidth: 3 } },
+      series: [{ name: '東協十國合計', color: '#477B91', data: aseanData.monthlyTotals }]
+    };
+  } else {
+    opts = {
+      chart: { type: 'line' },
+      title: { text: '東協十國各國每月來臺旅客趨勢', style: { color: '#526572', fontSize: '13px', fontWeight: '500' } },
+      xAxis: { categories: aseanData.months, labels: { style: { color: '#596b77', fontSize: '10px' } } },
+      plotOptions: { line: { marker: { enabled: false }, lineWidth: 2 } },
+      series: aseanData.countries.map(d => ({ name: d.name, color: d.color, data: aseanData.monthlyByCountry[d.name] }))
+    };
+  }
+  if (aseanChart) aseanChart.destroy();
+  aseanChart = Highcharts.chart('aseanChart', Highcharts.merge(baseOptions, opts));
+}
+document.getElementById('aseanView').addEventListener('change', renderAseanChart);
+monthSelect.addEventListener('change', renderAseanChart);
+renderAseanChart();
+</script>
+
+</body></html>
